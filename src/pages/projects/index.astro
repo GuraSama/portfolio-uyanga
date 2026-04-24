@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
+---
+
+<Layout
+	title="Projects | Uyanga"
+	description="Selected case studies and portfolio work built in Astro with a premium editorial feel."
+>
+	<section class="page-hero panel">
+		<div class="eyebrow">Selected Projects</div>
+		<h1>Case studies designed to feel thoughtful, fast, and conversion-ready.</h1>
+		<p>
+			This portfolio template now includes a projects section so the site feels like a full client
+			website instead of a starter blog.
+		</p>
+	</section>
+
+	<div class="project-grid">
+		{projects.map((project) => (
+			<ProjectCard project={project} />
+		))}
+	</div>
+</Layout>

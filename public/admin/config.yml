@@ -1,4 +1,6 @@
-local_backend: true
+local_backend:
+  url: http://127.0.0.1:8081/api/v1
+  allowed_hosts: ['127.0.0.1', 'localhost']
 
 backend:
   name: git-gateway
@@ -9,17 +11,26 @@ public_folder: "/uploads"
 
 collections:
   - name: "blog"
-    label: "Blog"
+    label: "Blog Posts"
     label_singular: "Post"
     folder: "src/content/blog"
     create: true
+    delete: true
+    identifier_field: "title"
     extension: "md"
     format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     summary: "{{title}}"
+    sortable_fields: ["date", "title", "author"]
+    editor:
+      preview: false
     fields:
-      - { name: "title", label: "Title", widget: "string" }
-      - { name: "date", label: "Date", widget: "datetime" }
-      - { name: "description", label: "Description", widget: "text" }
-      - { name: "tags", label: "Tags", widget: "list", default: [] }
+      - { name: "title", label: "Title", widget: "string", hint: "The headline readers see on the blog card and post page." }
+      - { name: "description", label: "Description", widget: "text", hint: "A short summary for previews and search." }
+      - { name: "date", label: "Publish Date", widget: "datetime" }
+      - { name: "author", label: "Author", widget: "string", default: "Uyanga" }
+      - { name: "coverImage", label: "Cover Image", widget: "image", required: false, hint: "Optional hero image uploaded through the CMS." }
+      - { name: "tags", label: "Tags", widget: "list", default: [], hint: "Helpful topics like design, cms, astro, or writing." }
+      - { name: "featured", label: "Featured on Homepage", widget: "boolean", required: false, default: false }
+      - { name: "draft", label: "Save as Draft", widget: "boolean", required: false, default: false, hint: "Draft posts stay hidden from the public blog." }
       - { name: "body", label: "Body", widget: "markdown" }

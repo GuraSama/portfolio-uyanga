@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "dev:cms": "concurrently \"npm run dev -- --host 127.0.0.1 --port 4321\" \"npm run cms:proxy\"",
     "build": "astro build",
     "preview": "astro preview",
     "cms:proxy": "decap-server",
@@ -18,6 +19,7 @@
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "decap-server": "^3.7.0"
   }
 }

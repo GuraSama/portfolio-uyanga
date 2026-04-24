@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+
+	return projects.map((project) => ({
+		params: { slug: project.id },
+		props: { project },
+	}));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={`${project.data.title} | Uyanga`} description={project.data.description}>
+	<article class="article-shell">
+		<a class="back-link" href="/projects/">Back to all projects</a>
+
+		<header class="article-hero panel">
+			<div class="eyebrow">Case Study</div>
+			<h1>{project.data.title}</h1>
+			<p class="article-summary">{project.data.description}</p>
+			<div class="article-meta">
+				<span>{project.data.client}</span>
+				<span>{project.data.year}</span>
+				<span>{project.data.role}</span>
+			</div>
+			{project.data.services.length > 0 && (
+				<ul class="article-tags">
+					{project.data.services.map((service) => (
+						<li>{service}</li>
+					))}
+				</ul>
+			)}
+			<p class="project-outcome">
+				<strong>Outcome:</strong> {project.data.outcome}
+			</p>
+			{project.data.projectUrl && (
+				<div class="action-group">
+					<a class="button is-secondary" href={project.data.projectUrl} target="_blank" rel="noreferrer">
+						Visit example
+					</a>
+				</div>
+			)}
+		</header>
+
+		<section class="article-body panel">
+			<div class="rich-content">
+				<Content />
+			</div>
+		</section>
+	</article>
+</Layout>

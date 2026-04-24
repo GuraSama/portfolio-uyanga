@@ -1,10 +1,19 @@
 ---
 title: Welcome to the Blog
 date: 2026-04-25T00:00:00.000Z
-description: Your Decap CMS blog collection is connected and ready for content.
+description: A starter post that shows how the new dashboard and publishing flow fit together.
+author: Uyanga
 tags:
   - cms
   - astro
+featured: true
+draft: false
 ---
 
-This starter post confirms that Astro content collections and Decap CMS are pointing at the same folder.
+The blog is now wired to a simple publishing setup:
+
+- write posts in Decap CMS
+- save them into `src/content/blog`
+- render them on the public blog automatically
+
+Use the dashboard to open a fresh post, manage existing entries, or jump straight into the media library.

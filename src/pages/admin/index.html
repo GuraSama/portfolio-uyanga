@@ -5,8 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>Content Manager</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <style>
+      :root {
+        color-scheme: light;
+        --admin-bg: #f6efe3;
+        --admin-ink: #242936;
+        --admin-muted: #5c6470;
+        --admin-accent: #135b4c;
+        --admin-panel: rgba(255, 251, 244, 0.88);
+        --admin-border: rgba(36, 41, 54, 0.1);
+        --admin-shadow: 0 24px 60px rgba(36, 41, 54, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--admin-ink);
+        background:
+          radial-gradient(circle at top left, rgba(212, 233, 224, 0.95), transparent 34%),
+          radial-gradient(circle at top right, rgba(255, 219, 182, 0.72), transparent 28%),
+          linear-gradient(180deg, var(--admin-bg) 0%, #eadfce 100%);
+      }
+
+      .admin-shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: start center;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .admin-card {
+        width: min(100%, 1100px);
+        padding: 1.5rem;
+        border-radius: 28px;
+        background: var(--admin-panel);
+        border: 1px solid var(--admin-border);
+        box-shadow: var(--admin-shadow);
+        backdrop-filter: blur(20px);
+      }
+
+      .admin-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .admin-header h1 {
+        margin: 0 0 0.35rem;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        line-height: 1;
+        font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      }
+
+      .admin-header p,
+      .admin-hint,
+      .admin-steps li {
+        color: var(--admin-muted);
+        line-height: 1.65;
+      }
+
+      .admin-badge {
+        padding: 0.55rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(19, 91, 76, 0.1);
+        color: var(--admin-accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      #admin-status {
+        margin: 0 0 1rem;
+        padding: 0.95rem 1rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid var(--admin-border);
+      }
+
+      #admin-status[data-tone="warning"] {
+        background: rgba(255, 247, 226, 0.96);
+      }
+
+      #admin-status[data-tone="error"] {
+        background: rgba(255, 235, 230, 0.96);
+      }
+
+      #nc-root {
+        min-height: 65vh;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .admin-fallback {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .admin-panel {
+        padding: 1.1rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--admin-border);
+      }
+
+      .admin-panel h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.1rem;
+      }
+
+      .admin-panel a {
+        color: var(--admin-accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .admin-steps {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+
+      body.cms-ready .admin-header,
+      body.cms-ready #admin-status,
+      body.cms-ready #admin-fallback {
+        display: none;
+      }
+
+      @media (max-width: 800px) {
+        .admin-header,
+        .admin-fallback {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+      }
+    </style>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script defer src="https://unpkg.com/decap-cms@^3.11.0/dist/decap-cms.js"></script>
+    <script defer src="/admin/decap-init.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="admin-shell">
+      <div class="admin-card">
+        <header class="admin-header">
+          <div>
+            <div class="admin-badge">Content Studio</div>
+            <h1>Blog editor</h1>
+            <p>Use this screen to write posts, upload media, save drafts, and publish updates.</p>
+          </div>
+          <a class="admin-badge" href="/dashboard/">Open dashboard</a>
+        </header>
+
+        <p id="admin-status" data-tone="neutral">Loading the CMS editor…</p>
+        <div id="nc-root"></div>
+
+        <section id="admin-fallback" class="admin-fallback" hidden>
+          <article class="admin-panel">
+            <h2>Local setup</h2>
+            <p class="admin-hint">
+              If the editor stays empty during local development, run <strong>npm run dev:cms</strong>
+              so Astro and the Decap proxy start together.
+            </p>
+            <ol class="admin-steps">
+              <li>Stop any old dev server.</li>
+              <li>Run <strong>npm run dev:cms</strong> from the project root.</li>
+              <li>Refresh <strong>/admin/</strong>.</li>
+            </ol>
+          </article>
+          <article class="admin-panel">
+            <h2>Quick links</h2>
+            <p><a href="/dashboard/">Writer dashboard</a></p>
+            <p><a href="/blog/">Public blog</a></p>
+            <p><a href="/admin/config.yml">CMS config file</a></p>
+          </article>
+        </section>
+      </div>
+    </div>
+  </body>
 </html>

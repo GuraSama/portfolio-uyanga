@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+	month: 'short',
+	day: 'numeric',
+	year: 'numeric',
+}).format(post.data.date);
+---
+
+<article class="post-card">
+	{post.data.coverImage && (
+		<img
+			class="post-card__image"
+			src={post.data.coverImage}
+			alt={post.data.title}
+			loading="lazy"
+		/>
+	)}
+	<div class="post-card__body">
+		<div class="post-card__meta">
+			<span>{formattedDate}</span>
+			<span>{post.data.author}</span>
+			{post.data.featured && <span class="status-badge">Featured</span>}
+		</div>
+		<h3>
+			<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+		</h3>
+		<p>{post.data.description}</p>
+		{post.data.tags.length > 0 && (
+			<ul class="tag-list">
+				{post.data.tags.map((tag) => (
+					<li>{tag}</li>
+				))}
+			</ul>
+		)}
+	</div>
+</article>

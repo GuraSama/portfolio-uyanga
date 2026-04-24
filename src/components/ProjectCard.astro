@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+	compact?: boolean;
+}
+
+const { project, compact = false } = Astro.props;
+---
+
+<article class:list={['project-card panel', compact && 'project-card--compact']}>
+	<div class="project-card__top">
+		<div>
+			<p class="project-card__kicker">{project.data.client} · {project.data.year}</p>
+			<h3>{project.data.title}</h3>
+		</div>
+		{project.data.featured && <span class="status-badge">Featured</span>}
+	</div>
+	<p>{project.data.description}</p>
+	<div class="project-card__meta">
+		<strong>Role</strong>
+		<span>{project.data.role}</span>
+	</div>
+	{project.data.services.length > 0 && (
+		<ul class="tag-list">
+			{project.data.services.map((service) => (
+				<li>{service}</li>
+			))}
+		</ul>
+	)}
+	<p class="project-card__outcome">
+		<strong>Outcome:</strong> {project.data.outcome}
+	</p>
+	<div class="action-group">
+		<a class="button is-secondary" href={`/projects/${project.id}/`}>Read case study</a>
+		{project.data.projectUrl && (
+			<a class="button is-ghost" href={project.data.projectUrl} target="_blank" rel="noreferrer">
+				Visit example
+			</a>
+		)}
+	</div>
+</article>
