@@ -2,165 +2,79 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-import PostCard from '../components/PostCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
-const featuredProjects = (projects.filter((project) => project.data.featured).length
+const selectedProjects = (projects.filter((project) => project.data.featured).length
 	? projects.filter((project) => project.data.featured)
 	: projects
-).slice(0, 2);
-const latestPosts = posts.slice(0, 2);
+).slice(0, 3);
+const latestPost = posts[0];
 ---
 
 <Layout
 	title="Uyanga | Portfolio Blog"
 	description="A polished Astro blog with an easy writing dashboard and Decap CMS publishing flow."
 >
-	<section class="hero panel panel--hero">
-		<div class="eyebrow">Freelance Portfolio Template</div>
-		<div class="hero-grid">
-			<div class="stack">
-				<h1>Elegant portfolio storytelling for client work, case studies, and writing.</h1>
-				<p>
-					This version of the site feels more like a premium freelance portfolio: selected projects,
-					an about page, a contact path, and a blog you can update through a lightweight CMS.
-				</p>
-				<div class="action-group">
-					<a class="button" href="/projects/">See selected projects</a>
-					<a class="button is-secondary" href="/contact/">Start a project</a>
-					<a class="button is-ghost" href="/dashboard/">Open writer dashboard</a>
-				</div>
-				<div class="metric-row">
-					<div class="metric">
-						<strong>{projects.length}</strong>
-						<span>case studies</span>
-					</div>
-					<div class="metric">
-						<strong>{posts.length}</strong>
-						<span>published posts</span>
-					</div>
-					<div class="metric">
-						<strong>Astro</strong>
-						<span>fast static stack</span>
-					</div>
-				</div>
-			</div>
-			<aside class="panel hero-note">
-				<div class="eyebrow">Quick Snapshot</div>
-				<h2>Built for people who need both polish and simplicity.</h2>
-				<p>
-					The public-facing site now reads like a real portfolio while the back office stays easy to
-					use for publishing blog updates.
-				</p>
-				<ul class="checklist">
-					<li>Case-study driven project pages</li>
-					<li>Dedicated about and contact pages</li>
-					<li>CMS-powered blog workflow</li>
-					<li>Fast static deployment on Netlify</li>
-				</ul>
-			</aside>
-		</div>
-	</section>
-
-	<section class="section-heading">
-		<div>
-			<div class="eyebrow">Selected Work</div>
-			<h2>Featured projects that make the site feel like a real portfolio</h2>
-		</div>
+	<section class="home-hero">
+		<p class="eyebrow">Portfolio Blog</p>
+		<h1>Uyanga builds clear, calm websites and writes about the process.</h1>
 		<p>
-			Each project has its own case-study page, so you can use the homepage as a high-level overview
-			and send deeper readers into the details.
+			A simple portfolio for selected projects, occasional notes, and quick ways to get in touch.
 		</p>
-	</section>
-
-	{
-		featuredProjects.length > 0 ? (
-			<div class="project-grid">
-				{featuredProjects.map((project) => (
-					<ProjectCard project={project} compact={true} />
-				))}
-			</div>
-		) : (
-			<section class="panel empty-state">
-				<h2>No project case studies yet</h2>
-				<p>Add your own project content to turn this starter into a true portfolio site.</p>
-			</section>
-		)
-	}
-
-	<section class="section-heading">
-		<div>
-			<div class="eyebrow">Why This Works</div>
-			<h2>A portfolio shell on the outside, a lightweight editorial workflow underneath</h2>
-		</div>
-		<p>
-			The site no longer feels like a default starter. It now balances project storytelling, blog
-			publishing, and clear contact paths.
-		</p>
-	</section>
-
-	<div class="split-grid">
-		<article class="panel empty-state">
-			<h3>For portfolio visitors</h3>
-			<ol class="checklist">
-				<li>They land on a clear homepage with a stronger value proposition.</li>
-				<li>They can browse selected projects before reading supporting blog content.</li>
-				<li>They have a direct way to contact you when they are ready.</li>
-			</ol>
-		</article>
-		<article class="panel empty-state">
-			<h3>For your workflow</h3>
-			<ol class="checklist">
-				<li>Projects and blog posts live in content collections.</li>
-				<li>The dashboard still gives you a friendly shortcut into Decap CMS.</li>
-				<li>New articles generate as static pages at build time.</li>
-			</ol>
-		</article>
-	</div>
-
-	<section class="section-heading">
-		<div>
-			<div class="eyebrow">Latest Writing</div>
-			<h2>Recent blog posts still have a clear place in the portfolio</h2>
-		</div>
-		<p>
-			The blog now supports the portfolio instead of replacing it. Use it for process notes, essays,
-			or project updates.
-		</p>
-	</section>
-
-	{
-		latestPosts.length > 0 ? (
-			<div class="post-grid post-grid--two">
-				{latestPosts.map((post) => (
-					<PostCard post={post} />
-				))}
-			</div>
-		) : (
-			<section class="panel empty-state">
-				<h2>No published posts yet</h2>
-				<p>Create your first entry from the dashboard and it will appear here automatically.</p>
-			</section>
-		)
-	}
-
-	<section class="panel contact-band">
-		<div>
-			<div class="eyebrow">Get In Touch</div>
-			<h2>Turn this starter into your personal portfolio in one pass.</h2>
-			<p>
-				Replace the sample content with your own projects, update the contact page, and use the CMS
-				to keep publishing without touching Markdown by hand.
-			</p>
-		</div>
 		<div class="action-group">
-			<a class="button" href="/contact/">Contact page</a>
-			<a class="button is-secondary" href="/dashboard/">Writer dashboard</a>
+			<a class="button" href="/projects/">View projects</a>
+			<a class="button is-secondary" href="/contact/">Contact</a>
 		</div>
 	</section>
+
+	<div class="home-sections">
+		<section class="home-block">
+			<div class="section-heading section-heading--simple">
+				<div>
+					<p class="eyebrow">Selected Work</p>
+					<h2>Recent projects</h2>
+				</div>
+				<a href="/projects/">All projects</a>
+			</div>
+			{
+				selectedProjects.length > 0 ? (
+					<ul class="simple-list">
+						{selectedProjects.map((project) => (
+							<li>
+								<a href={`/projects/${project.id}/`}>
+									<strong>{project.data.title}</strong>
+									<span>{project.data.description}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>No project case studies yet.</p>
+				)
+			}
+		</section>
+
+		<section class="home-block">
+			<div class="section-heading section-heading--simple">
+				<div>
+					<p class="eyebrow">Latest Writing</p>
+					<h2>From the blog</h2>
+				</div>
+				<a href="/blog/">All posts</a>
+			</div>
+			{
+				latestPost ? (
+					<a class="latest-link" href={`/blog/${latestPost.id}/`}>
+						<strong>{latestPost.data.title}</strong>
+						<span>{latestPost.data.description}</span>
+					</a>
+				) : (
+					<p>No published posts yet.</p>
+				)
+			}
+		</section>
+	</div>
 </Layout>
