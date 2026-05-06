@@ -17,8 +17,8 @@ const posts = (await getCollection('blog'))
 		<div class="eyebrow">Blog Archive</div>
 		<h1>Published writing, notes, and case studies.</h1>
 		<p>
-			Every post on this page comes from the same CMS workflow used by the writer dashboard, so
-			adding content stays simple.
+			Every post on this page comes from the same publishing workflow, so adding content stays
+			simple.
 		</p>
 	</section>
 
@@ -32,7 +32,7 @@ const posts = (await getCollection('blog'))
 		) : (
 			<section class="panel empty-state">
 				<h2>No posts published yet</h2>
-				<p>Open the dashboard, create a post, and it will appear here after publishing.</p>
+				<p>Published posts will appear here automatically once they are added.</p>
 			</section>
 		)
 	}
