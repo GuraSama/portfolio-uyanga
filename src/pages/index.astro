@@ -3,8 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft)
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
 const selectedProjects = (projects.filter((project) => project.data.featured).length

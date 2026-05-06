@@ -4,7 +4,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-	const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+	const posts = await getCollection('blog');
 
 	return posts.map((post) => ({
 		params: { slug: post.id },
@@ -19,7 +19,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 	month: 'long',
 	day: 'numeric',
 	year: 'numeric',
-}).format(post.data.date);
+}).format(post.data.pubDate);
 ---
 
 <Layout title={`${post.data.title} | Uyanga`} description={post.data.description}>
@@ -32,19 +32,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 			<p class="article-summary">{post.data.description}</p>
 			<div class="article-meta">
 				<span>{formattedDate}</span>
-				<span>{post.data.author}</span>
-				{post.data.featured && <span class="status-badge">Featured</span>}
 			</div>
-			{post.data.tags.length > 0 && (
-				<ul class="article-tags">
-					{post.data.tags.map((tag) => (
-						<li>{tag}</li>
-					))}
-				</ul>
-			)}
-			{post.data.coverImage && (
-				<img class="article-cover" src={post.data.coverImage} alt={post.data.title} />
-			)}
 		</header>
 
 		<section class="article-body panel">

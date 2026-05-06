@@ -56,7 +56,7 @@
       }
 
       showFallback(
-        'The editor is taking longer than expected. If you are local, run npm run dev:cms and refresh.',
+        'The editor is taking longer than expected. Check the browser console and refresh.',
         'warning'
       );
     }, 2500);

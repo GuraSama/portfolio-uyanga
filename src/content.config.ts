@@ -5,13 +5,8 @@ const blog = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
 	schema: z.object({
 		title: z.string(),
-		date: z.coerce.date(),
+		pubDate: z.coerce.date(),
 		description: z.string(),
-		author: z.string().default('Uyanga'),
-		coverImage: z.string().optional(),
-		tags: z.array(z.string()).default([]),
-		featured: z.boolean().default(false),
-		draft: z.boolean().default(false),
 	}),
 });
 

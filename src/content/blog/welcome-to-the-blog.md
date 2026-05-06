@@ -1,6 +1,6 @@
 ---
 title: Welcome to the Blog
-date: 2026-04-25T00:00:00.000Z
+pubDate: 2026-04-25T00:00:00.000Z
 description: A first note on using this space for practical guides, personal reflections, and thoughtful writing about life, work, and law.
 author: Uyanga
 tags:
@@ -39,10 +39,8 @@ Use this simple structure when adding a new post:
 
 1. Start with a clear title.
 2. Write a short description so readers know what the post is about.
-3. Choose a few tags, such as `life`, `law`, `career`, `design`, or `notes`.
+3. Choose a publish date.
 4. Write the body in Markdown.
-5. Keep `draft: true` while editing.
-6. Change it to `draft: false` when the post is ready to publish.
 
 Here is a good format for future posts:
 
